@@ -1,28 +1,4 @@
-/* ziye
-
-
-转载请备注个名字，谢谢
-
-11.25 增加 阅读时长上传，阅读金币，阅读随机金币
-11.25 修复翻倍宝箱不同时领取的问题.增加阅读金币判定
-11.25 修复阅读时长问题，阅读金币问题，请重新获取时长cookie
-11.26 随机金币只有一次，故去除，调整修复阅读金币问题，增加时长上传限制
-11.26 增加领取周时长奖励
-11.26 增加结束命令
-11.27 调整通知为，成功开启宝箱再通知
-11.28 修复错误
-11.29 更新 支持action.默认每天21点到21点20通知
-12.2 修复打卡问题
-12.3 缩短运行时间，由于企鹅读书版本更新.请手动进去看一次书
-12.3 调整推送时间为12点和24点左右
-12.6 精简打印通知
-12.7 解决1金币问题，务必重新获取一次更新body
-12.8 更新支持boxjs
-12.10 默认现金大于10且在23点提现10元，23点40后显示今日收益统计
-12.11 修复git与手机 时间不兼容问题
-12.30 增加提现开关，优化部分代码
-12.31 修复版本更新带来的判定问题
-1.4 增加ck失效提醒，ck获取时间显示，6点后今日收益显示，
+/* 来源于网络
 
 
 ⚠️cookie获取方法：
@@ -49,10 +25,19 @@ hostname=mqqapi.reader.qq.com
 ############## 圈x
 
 #企鹅读书获取更新body
-https:\/\/mqqapi\.reader\.qq\.com\/log\/v4\/mqq\/track url script-request-body https://raw.githubusercontent.com/pipi242526/QuantumultX/main/qqreads.js
+https:\/\/mqqapi\.reader\.qq\.com\/log\/v4\/mqq\/track url script-request-body qqreads.js
 
 #企鹅读书获取时长cookie
-https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? url script-request-header https://raw.githubusercontent.com/pipi242526/QuantumultX/main/qqreads.js
+https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? url script-request-header qqreads.js
+
+############## surge
+
+//企鹅读书获取更新body
+企鹅读书获取更新body = type=http-request,pattern=https:\/\/mqqapi\.reader\.qq\.com\/log\/v4\/mqq\/track,script-path=qqreads.js,
+
+//企鹅读书获取时长cookie
+企鹅读书获取时长cookie = type=http-request,pattern=https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid?,script-path=qqreads.js,
+
 
 */
 
