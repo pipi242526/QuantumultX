@@ -1,10 +1,26 @@
 # 自用库（不要fork，请点亮★）
 ![Anurag’s github stats](https://github-readme-stats.vercel.app/api?username=pipi242526&show_icons=true&theme=merko)
 
+
 ### 说明 :
 
 * 只是搬运和同步更新大佬脚本，不负责维护脚本！
 * 只测试自用脚本，其他大部分脚本未测试可用性.
+
+
+### 🚀自用机场及Netflix流媒体合租平台推荐：（2021.02.28）
+* [🚘qcranev2](https://www.qcranev2.com/#/register?code=gwQPB84i)
+* [🚘nya-cloud](https://nya-cloud.com/auth/register?code=hkmi)
+* [🚘Flyint](https://go.xazwdj.com/#/register?code=rsAbkCxb)
+* [🚖Netflix合租](https://bit.ly/)
+
+
+### Quantumult X懒人配置：（2021.02.25）
+* Quantumult X最新商店版支持gallery订阅及Url测速：
+* [QuantumultX_iPhone版.conf]()
+* [QuantumultX_iPad版.conf]()
+* [京东系列gallery订阅](https://jdsharedresourcescdn.azureedge.net/jdresource/lxk0301_gallery.json)
+
 
 ## 免责声明：
 
@@ -23,6 +39,8 @@
 * 任何以任何方式查看此项目的人或直接或间接使用该Script项目的任何脚本的使用者都应仔细阅读此声明。pipi242526保留随时更改或补充此免责声明的权利。一旦使用并复制了任何相关脚本或Script项目的规则，则视为您已接受此免责声明.
 
 ### 特别感谢（排名不分先后）：
+* [@w37fhy](https://github.com/w37fhy)
+
 * [@ziye666666](https://github.com/ziye666666)
 
 * [@蔡徐坤](https://github.com/)
