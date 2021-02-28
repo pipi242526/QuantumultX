@@ -15,10 +15,10 @@
 * [🚖Netflix合租](https://bit.ly/)
 
 
-### Quantumult X懒人配置：（2021.02.25）
+### Quantumult X懒人配置：（2021.02.28）
 * Quantumult X最新商店版支持gallery订阅及Url测速：
-* [QuantumultX_iPhone版.conf]()
-* [QuantumultX_iPad版.conf]()
+* [QuantumultX_iPhone版.conf](https://raw.githubusercontent.com/pipi242526/QuantumultX/main/QuantumultX_iPhone%E5%AE%9A%E5%88%B6%E7%89%88.conf)
+* [QuantumultX_iPad版.conf](https://raw.githubusercontent.com/pipi242526/QuantumultX/main/QuantumultX_%E6%87%92%E4%BA%BA%E9%85%8D%E7%BD%AEiPad%E4%B8%93%E7%94%A8%E7%89%88.conf)
 * [京东系列gallery订阅](https://jdsharedresourcescdn.azureedge.net/jdresource/lxk0301_gallery.json)
 
 
