@@ -10,19 +10,21 @@ boxjs链接  https://raw.githubusercontent.com/ziye66666/JavaScript/main/Task/zi
 点击 http://bububao.yichengw.cn/?id=529742 下载APP  谢谢支持
 
 
-
-
 2.21 制作
 2.23 完成
 2.23 修复ck问题
 2.24 调整通知布局，修复抽奖宝箱
-2.27 修复签到问题
+3.1 修复看看赚
+3.2 调整抽奖机制， 一次运行5次抽奖， 抽中1000金币则兑奖
+3.3 修复签到，增加10分钟限速，完善提现判定，修复睡觉，调整为抽奖200金币也领取
+3.3-2 调整刮奖机制 分3个时间段刮奖
+3.4 取消限速
 
 ⚠️ 时间设置    0,30 0-23 * * *    每天 35次以上就行   
 
-一 看看赚做不了   
-二 视频助力手动也是不行的 
-三 默认0点睡23点醒，时间务必包括这两个点 
+ 
+一 视频助力手动也是不行的 
+二 默认0点睡23点醒，时间务必包括这两个点 
 
 (已内置随机udid，添加重写无视多设备检测，如非必要，勿频繁登录)
 
@@ -65,6 +67,7 @@ const logs = 0; // 0为关闭日志，1为开启
 const notifyttt = 1 // 0为关闭外部推送，1为12 23 点外部推送
 const notifyInterval = 2; // 0为关闭通知，1为所有通知，2为12 23 点通知  ， 3为 6 12 18 23 点通知 
 $.message = '', COOKIES_SPLIT = '', CASH = '', ddtime = '';
+CZ = 10
 const bububaotokenArr = [];
 let bububaotokenVal = ``;
 let middlebububaoTOKEN = [];
@@ -199,6 +202,14 @@ function time(inputTime) {
     s = date.getSeconds();
     return Y + M + D + h + m + s;
 };
+//日期格式化时间戳
+function timecs() {
+    if ($.isNode()) {
+        var date = new Date(newtime).getTime() - 8 * 60 * 60 * 1000
+    } else var date = new Date(newtime).getTime()
+
+    return date;
+};
 //随机udid 大写
 function udid() {
     var s = [];
@@ -289,25 +300,29 @@ async function all() {
         if (!cookie_is_live) {
             continue;
         }
-        await help_index() //助力活动
-        await home() //首页信息
-        await jindan_click() //首页金蛋
-        await sign_html() //签到
-        await dk_info() //打卡
-        await cy_info() //答题
-        await water_info() //喝水
-        await sleep_info() //睡觉
-        await gualist() //刮刮卡
-        await lucky() //转盘抽奖
-        await $.wait(1000)
-        await lucky() //转盘抽奖
-        await $.wait(1000)
-        await lucky() //转盘抽奖
-        await $.wait(1000)
-        //await h5_list() //看看赚
-        await news() //看文章
-        await renwu() //赚赚任务
-        await tixian_html() //提现
+        //await userjinbi() //收益记录
+        if (CZ >= 10) {
+            await help_index() //助力活动
+            await home() //首页信息
+            await jindan_click() //首页金蛋
+            await sign_html() //签到
+            await dk_info() //打卡
+            await cy_info() //答题
+            await water_info() //喝水
+            await sleep_info() //睡觉
+            await ggk() //刮刮卡
+            await $.wait(8000)
+            await lucky() //转盘抽奖
+            await $.wait(1000)
+            await lucky() //转盘抽奖
+            await $.wait(1000)
+            await lucky() //转盘抽奖
+            await $.wait(1000)
+            await h5_list() //看看赚
+            await news() //看文章
+            await renwu() //赚赚任务
+            await tixian_html() //提现
+        }
     }
 }
 //通知
@@ -342,12 +357,12 @@ function user(timeout = 0) {
                 try {
                     if (logs) $.log(`${O}, 用户名🚩: ${data}`);
                     $.user = JSON.parse(data);
-                    if ($.user.username) {
+                    if ($.user.uid) {
                         console.log(`\n${O}\n========== ${$.user.username} ==========\n微信绑定：${$.user.wx_username},今日收益：${$.user.day_jinbi/10000}元\n现金余额：${$.user.money}元,累计收益：${$.user.leiji_jinbi/10000}元,今日步数：${$.user.steps}步\n`)
                         $.message += `\n${O}\n========== 【${$.user.username}】 ==========\n【微信绑定】：${$.user.wx_username},今日收益：${$.user.day_jinbi/10000}元\n【现金余额】：${$.user.money}元,累计收益：${$.user.leiji_jinbi/10000}元,今日步数：${$.user.steps}步\n`;
                         resolve(true);
                     }
-                    if (!$.user.username) {
+                    if (!$.user.uid) {
                         $.msg(O, time(Number(tts())) + "❌❌❌COOKIE失效");
                         if ($.isNode()) {
                             notify.sendNotify(O, time(Number(tts())) + "❌❌❌COOKIE失效");
@@ -363,6 +378,45 @@ function user(timeout = 0) {
         }, timeout)
     })
 }
+
+
+//收益记录
+function userjinbi(timeout = 0) {
+    return new Promise(async (resolve) => {
+        setTimeout(() => {
+                let url = {
+                    url: `https://bububao.duoshoutuan.com/user/userjinbi?`,
+                    headers: header,
+                    body: `page=1&page_limit=25&`,
+                }
+                $.post(url, async (err, resp, data) => {
+                    try {
+                        if (logs) $.log(`${O}, 收益记录🚩: ${data}`);
+                        $.userjinbi = JSON.parse(data);
+
+                        if ($.userjinbi && $.userjinbi[0].add_date) {
+                            newtime = $.userjinbi[0].add_date + 'T' + $.userjinbi[0].add_time
+                            CZ = ((tts() - timecs(newtime)) / 60000).toFixed(0)
+
+                            console.log(`收益记录：距离上次收益${CZ}分钟，已限速10分钟\n`);
+                            $.message += `【收益记录】：距离上次收益${CZ}分钟，已限速10分钟\n`;
+
+                        }
+
+
+                    } catch (e) {
+                        $.logErr(e, resp);
+                    } finally {
+                        resolve()
+                    }
+                })
+            },
+            timeout)
+    })
+}
+
+
+
 //首页信息
 function home(timeout = 0) {
     return new Promise((resolve) => {
@@ -665,7 +719,7 @@ function help_index(timeout = 0) {
                         $.message += `【助力活动】：现金${$.help_index.jinbi}元,差${$.help_index.diff_jinbi}元,时间剩余${($.help_index.time/3600).toFixed(0)}小时\n`;
                         nonce_str = $.help_index.nonce_str
                         //if ($.help_index.diff_jinbi > 0) {
-                            //await help_click()
+                        //await help_click()
                         //}
                     }
                 } catch (e) {
@@ -711,7 +765,7 @@ function help_click(timeout = 0) {
     })
 }
 //每日签到
-function sign(timeout = 0) {
+function signget(timeout = 0) {
     return new Promise((resolve) => {
         setTimeout(() => {
             let url = {
@@ -721,15 +775,15 @@ function sign(timeout = 0) {
             $.post(url, async (err, resp, data) => {
                 try {
                     if (logs) $.log(`${O}, 每日签到🚩: ${data}`);
-                    $.sign = JSON.parse(data);
-                    if ($.sign.code == 1) {
-                        console.log(`每日签到：${$.sign.msg}\n`);
-                        $.message += `【每日签到】：${$.sign.msg}\n`;
+                    $.signget = JSON.parse(data);
+                    if ($.signget.code == 1) {
+                        console.log(`每日签到：${$.signget.msg}\n`);
+                        $.message += `【每日签到】：${$.signget.msg}\n`;
                         tid = 2
                         pos = 1
-                        nonce_str = $.sign.nonce_str
-                    await callback() 
-}
+                        nonce_str = $.signget.nonce_str
+                        await callback()
+                    }
                 } catch (e) {
                     $.logErr(e, resp);
                 } finally {
@@ -755,7 +809,11 @@ function sign_html(timeout = 0) {
                         console.log(`签到列表：已签到${$.sign_html.sign_day}天\n`);
                         $.message += `【签到列表】：已签到${$.sign_html.sign_day}天\n`;
                         if ($.sign_html.is_sign_day == 0) {
-                            await sign() //签到
+                            await signget() //签到
+                        } else {
+                            console.log(`每日签到：已签到\n`);
+                            $.message += `【每日签到】：已签到\n`;
+
                         }
                     }
                 } catch (e) {
@@ -1044,8 +1102,8 @@ function sleep_end(timeout = 0) {
                     if (logs) $.log(`${O}, 结束睡觉🚩: ${data}`);
                     $.sleep_end = JSON.parse(data);
                     if ($.sleep_end.code == 1) {
-                        console.log(`结束睡觉：结束睡觉\n`);
-                        $.message += `【结束睡觉】：结束睡觉\n`;
+                        console.log(`结束睡觉：结束睡觉，产生${$.sleep_end.jinbi}金币\n`);
+                        $.message += `【结束睡觉】：结束睡觉，产生${$.sleep_end.jinbi}金币\n`;
                         taskid = $.sleep_end.taskid
                         nonce_str = $.sleep_end.nonce_str
                         await sleep_done() //睡觉奖励
@@ -1073,10 +1131,8 @@ function sleep_done(timeout = 0) {
                     if (logs) $.log(`${O}, 睡觉奖励🚩: ${data}`);
                     $.sleep_done = JSON.parse(data);
                     if ($.sleep_done.code == 1) {
-                        console.log(`睡觉奖励：睡觉奖励\n`);
-                        $.message += `【睡觉奖励】：睡觉奖励\n`;
-                        taskid = $.sleep_done.taskid
-                        nonce_str = $.sleep_done.nonce_str
+                        console.log(`睡觉奖励：睡觉奖励领取${$.sleep_done.jinbi}金币\n`);
+                        $.message += `【睡觉奖励】：睡觉奖励领取${$.sleep_done.jinbi}金币\n`;
                     }
                 } catch (e) {
                     $.logErr(e, resp);
@@ -1087,6 +1143,16 @@ function sleep_done(timeout = 0) {
         }, timeout)
     })
 }
+
+//刮刮卡
+async function ggk() {
+    for (let i = 0; i < 5; i++) {
+        setTimeout(async () => {
+            await gualist()
+        }, i * 2000);
+    }
+}
+
 //刮刮卡列表
 function gualist(timeout = 0) {
     return new Promise((resolve) => {
@@ -1133,11 +1199,44 @@ function guadet(timeout = 0) {
                     if (logs) $.log(`${O}, 刮刮卡🚩: ${data}`);
                     $.guadet = JSON.parse(data);
                     if ($.guadet.jine) {
-                        console.log(`刮刮卡：开启${$.guadet.jine}元\n`);
-                        $.message += `【刮刮卡】：开启${$.guadet.jine}元\n`;
-                        sign = $.guadet.sign
-                        glid = $.guadet.glid
-                        await guapost() //刮卡奖励
+                        guacs = data.match(/x(\d+).png/g).length + 1
+
+                        if (!guacs) {
+                            console.log(`【刮刮卡查询】：开启${$.guadet.jine}元,抽中1等奖\n`)
+                            $.message += `【刮刮卡查询】：开启${$.guadet.jine}元,抽中1等奖\n`;
+                            console.log(`【刮刮卡领取】：成功领奖\n`)
+                            $.message += `【刮刮卡领取】：成功领奖\n`;
+                            sign = $.guadet.sign
+                            glid = $.guadet.glid
+                            await guapost() //刮卡奖励
+                        }
+                        if (guacs) {
+                            console.log(`【刮刮卡查询】：开启${$.guadet.jine}元,抽中${guacs}等奖\n`)
+                            $.message += `【刮刮卡查询】：开启${$.guadet.jine}元,抽中${guacs}等奖\n`;
+
+                            if (guacs <= 3 && nowTimes.getHours() >= 0 && nowTimes.getHours() <= 17) {
+                                console.log(`【刮刮卡领取】：成功领奖\n`)
+                                $.message += `【刮刮卡领取】：成功领奖\n`;
+                                sign = $.guadet.sign
+                                glid = $.guadet.glid
+                                await guapost() //刮卡奖励
+                            } else if (guacs <= 4 && nowTimes.getHours() >= 18 && nowTimes.getHours() <= 22) {
+                                console.log(`【刮刮卡领取】：成功领奖\n`)
+                                $.message += `【刮刮卡领取】：成功领奖\n`;
+                                sign = $.guadet.sign
+                                glid = $.guadet.glid
+                                await guapost() //刮卡奖励
+                            } else if (guacs <= 5  && nowTimes.getHours() == 23) {
+                                console.log(`【刮刮卡领取】：成功领奖\n`)
+                                $.message += `【刮刮卡领取】：成功领奖\n`;
+                                sign = $.guadet.sign
+                                glid = $.guadet.glid
+                                await guapost() //刮卡奖励
+                            } else {
+                                console.log(`【刮刮卡领取】：再来一次\n`)
+                                $.message += `【刮刮卡领取】：再来一次\n`;
+                            }
+                        }
                     }
                 } catch (e) {
                     $.logErr(e, resp);
@@ -1161,7 +1260,7 @@ function guapost(timeout = 0) {
                 try {
                     if (logs) $.log(`${O}, 刮刮卡奖励🚩: ${data}`);
                     $.guapost = JSON.parse(data);
-                    if ($.guapost.jine) {
+                    if ($.guapost.jf) {
                         console.log(`刮刮卡奖励：获得${$.guapost.jf}金币\n`);
                         $.message += `【刮刮卡奖励】：获得${$.guapost.jf}金币\n`;
                         tid = 6
@@ -1287,8 +1386,11 @@ function h5_list(timeout = 0) {
                         id = is_ok.id
                         console.log(`看看赚列表：下个任务：${is_ok.mini_name}\n`);
                         $.message += `【看看赚列表】：下个任务：${is_ok.mini_name}\n`;
-                        await $.wait(30000)
+
                         await h5_news() //看看赚执行
+                    } else {
+                        console.log(`看看赚：已完成\n`);
+                        $.message += `【看看赚】：已完成\n`;
                     }
                 } catch (e) {
                     $.logErr(e, resp);
@@ -1317,8 +1419,8 @@ function h5_news(timeout = 0) {
                         $.message += `【看看赚执行】：下个任务：${$.h5_news.mini_str}\n`;
                         taskid = $.h5_news.taskid
                         nonce_str = $.h5_news.nonce_str
-                        await $.wait(30000)
-                        await h5_newsdone() //看看赚完成
+                        await $.wait(15000)
+                        await h5_h5() //看看上传
                     }
                 } catch (e) {
                     $.logErr(e, resp);
@@ -1329,6 +1431,39 @@ function h5_news(timeout = 0) {
         }, timeout)
     })
 }
+
+//看看赚上传
+function h5_h5(timeout = 0) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            let url = {
+                url: `https://hunter-report.dui88.com/tuiaExtLog?group=1&type=9&json=%7B%22subtype%22%3A%22head%22%2C%22tck_rid_6c8%22%3A%220a56e7aaklm541ew-6681973%22%2C%22slotId%22%3A%22353024%22%2C%22activityId%22%3A%2216765%22%2C%22consumerId%22%3A%2226444115908%22%2C%22timestamp%22%3A${tts()}%7D`,
+                headers: {
+                    "Host": "hunter-report.dui88.com"
+                },
+
+            }
+            $.get(url, async (err, resp, data) => {
+                try {
+                    if (logs) $.log(`${O}, 看看赚上传🚩: ${data}`);
+                    $.h5_h5 = JSON.parse(data);
+                    console.log(`看看赚：${$.h5_h5.msg}\n`);
+                    $.message += `【看看赚】：${$.h5_h5.msg}\n`;
+
+                    await $.wait(30000)
+                    await h5_newsdone() //看看赚完成
+
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve()
+                }
+            })
+        }, timeout)
+    })
+}
+
+
 //看看赚完成
 function h5_newsdone(timeout = 0) {
     return new Promise((resolve) => {
@@ -1342,9 +1477,9 @@ function h5_newsdone(timeout = 0) {
                 try {
                     if (logs) $.log(`${O}, 看看赚完成🚩: ${data}`);
                     $.h5_newsdone = JSON.parse(data);
-                    if ($.h5_newsdone.taskid) {
-                        console.log(`看看赚完成：${$.h5_newsdone.msg}\n`);
-                        $.message += `【看看赚完成】：${$.h5_newsdone.msg}\n`;
+                    if ($.h5_newsdone.msg) {
+                        console.log(`看看赚完成：${$.h5_newsdone.msg}${$.h5_newsdone.jinbi}金币\n`);
+                        $.message += `【看看赚完成】：${$.h5_newsdone.msg}${$.h5_newsdone.jinbi}金币\n`;
                         tid = 10
                         pos = 1
                         nonce_str = $.h5_newsdone.fb_str
@@ -1566,24 +1701,27 @@ function tixian_html(timeout = 0) {
                         }
                         console.log(`${jine3.jine}元：${jine3.fenshu_tixian_tip}\n${jine4.jine}元：${jine4.fenshu_tixian_tip}\n${jine5.jine}元：${jine5.fenshu_tixian_tip}\n`);
                         $.message += `【${jine3.jine}元】：${jine3.fenshu_tixian_tip}\n【${jine4.jine}元】：${jine4.fenshu_tixian_tip}\n【${jine5.jine}元】：${jine5.fenshu_tixian_tip}\n`;
-                        if (CASH == 0.3 && $.user.day_jinbi >= 5000 && $.user.money >= CASH) {
-                            await tixian() //提现
-                        }
-                        if (CASH > 0.3 && CASH <= 200 && $.user.money >= CASH) {
-                            await tixian() //提现
-                        }
-                        if (CASH == 888) {
-                            if ($.user.money >= 200 && fenshu5 > 0) {
-                                CASH = 200
-                            } else if ($.user.money >= 100 && fenshu4 > 0) {
-                                CASH = 100
-                            } else if ($.user.money >= 50 && fenshu5 > 0) {
-                                CASH = 50
-                            } else if ($.user.money > 0.3 && $.user.day_jinbi >= 5000) {
-                                CASH = 0.3
-                            }
-                            if (CASH != 888) {
+
+                        if (!day_tixian_tip && ($.user.wx_username != "" || $.user.is_weixin == 1)) {
+                            if (CASH == 0.3 && $.user.day_jinbi >= 5000 && $.user.money >= CASH) {
                                 await tixian() //提现
+                            }
+                            if (CASH > 0.3 && CASH <= 200 && $.user.money >= CASH) {
+                                await tixian() //提现
+                            }
+                            if (CASH == 888) {
+                                if ($.user.money >= 200 && fenshu5 > 0) {
+                                    CASH = 200
+                                } else if ($.user.money >= 100 && fenshu4 > 0) {
+                                    CASH = 100
+                                } else if ($.user.money >= 50 && fenshu5 > 0) {
+                                    CASH = 50
+                                } else if ($.user.money > 0.3 && $.user.day_jinbi >= 5000) {
+                                    CASH = 0.3
+                                }
+                                if (CASH != 888) {
+                                    await tixian() //提现
+                                }
                             }
                         }
                     }
