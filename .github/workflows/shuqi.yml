@@ -1,46 +1,34 @@
-name: 书旗小说
-
+name: 书旗
 on:
   workflow_dispatch:
-  schedule:
-     - cron: '0 12 * * *'
   watch:
     types: started
+  schedule:
+    - cron: '0 14,21 * * *'
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
-    env:
-        readckArr: ${{ secrets.readckArr }}
-        receivecoinckArr: ${{ secrets.receivecoinckArr }}
-        vediogoldprizeckArr: ${{ secrets.vediogoldprizeckArr }}
-        vediodrawprizeckArr: ${{ secrets.vediodrawprizeckArr }}
-        drawckArr: ${{ secrets.drawckArr }}
-        userinfock: ${{ secrets.userinfock }}
+  build: 
+    runs-on: ubuntu-latest       
     steps:
+      
       - name: Checkout
         run: |
-          git clone https://github.com/LiuYuanwork/Node-Script.git ~/Node-Script
-      - name: Use Node.js 12.x
+          git clone https://github.com/chenlong7353/js.git ~/js
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
       - name: npm install
-        if: env.readckArr
         run: |
-          cd ~/Node-Script
+ 
+         cd ~/js
           npm install
-      - name: '运行 【书旗小说】'
-        if: env.readckArr
+          npm install cron
+          npm install request
+          curl ipinfo.io/json
+      
+      - name: '【书旗小说】'
         run: |
-          cd ~/Node-Script
+          cd ~/js   
           node Task/sqxs.js
-        env:
-          
-          PUSH_KEY: ${{ secrets.PUSH_KEY }}
-          BARK_PUSH: ${{ secrets.BARK_PUSH }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_USER_ID: ${{ secrets.TG_USER_ID }}
-          BARK_SOUND: ${{ secrets.BARK_SOUND }}
-          DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
-          DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
+
+
