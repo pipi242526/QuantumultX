@@ -1,10 +1,10 @@
-name: ranlv
+name: 燃旅视频
 
 
 on:
   workflow_dispatch:
   schedule:
-     - cron: '*/15 * * * *'
+     - cron: '*/20 9-22 * * *'
   watch:
     types: started
 jobs:
