@@ -3,7 +3,7 @@ name: 陌嗨短视频
 on:
   workflow_dispatch:
   schedule:
-     - cron: '23 11,14 * * *'
+     - cron: '23 3,6 * * *'
   watch:
     types: started
 jobs:
