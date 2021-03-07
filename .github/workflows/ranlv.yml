@@ -1,9 +1,9 @@
-name: ranlv@zhiyi2
+name: 燃旅视频
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0,30 0-12 * * *'
+    - cron: '*/30 9-22 * * *'
   watch:
     types: started
   repository_dispatch:
