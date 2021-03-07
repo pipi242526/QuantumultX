@@ -3,7 +3,7 @@ name: 燃旅视频
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/30 9-22 * * *'
+    - cron: '*/30 10-20 * * *'
   watch:
     types: started
   repository_dispatch:
