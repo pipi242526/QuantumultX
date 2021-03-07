@@ -12,7 +12,7 @@ jobs:
       
       - name: Checkout
         run: |
-          git clone https://github.com/chenlong7353/js.git ~/js
+          git clone https://github.com/pipi242526/QuantumultX.git ~/js
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
