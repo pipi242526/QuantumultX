@@ -20,7 +20,7 @@ jobs:
       - name: npm install
         run: |
  
-         cd ~/js
+         cd ~/QuantumultX
           npm install
           npm install cron
           npm install request
