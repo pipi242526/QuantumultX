@@ -34,7 +34,7 @@ status = (status = ($.getval("rlstatus") || "1") ) > 1 ? `${status}` : ""; // �
 const rlurlArr = [], rlheaderArr = [],rlbodyArr = []
 let rlurl = $.getdata('rlurl')
 let rlheader = $.getdata('rlheader')
-let rlbody = $.getdata('rlbody')
+//let rlbody = $.getdata('rlbody')
 let tz = ($.getval('tz') || '1');//0关闭通知，1默认开启
 let cash = ($.getval('rlcash') || '0')//默认不自动提现
 const invite=1;//新用户自动邀请，0关闭，1默认开启
