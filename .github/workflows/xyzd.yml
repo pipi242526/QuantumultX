@@ -56,17 +56,15 @@ jobs:
         with:
           node-version: 12.x
       - name: npm install
-        if: env.XYZD_HD
-            env.XYZD_URL
-            env.XYZD_BODY
+        if: env.XYZD_URL
+
         run: |
           cd ~/QuantumultX
           git checkout JavaScript
           npm install
       - name: '运行 【幸运赚点】'
-        if: env.XYZD_HD
-            env.XYZD_URL
-            env.XYZD_BODY
+        if: env.XYZD_URL
+            
         run: |
           cd ~/QuantumultX
           node Task/xyzd.js
