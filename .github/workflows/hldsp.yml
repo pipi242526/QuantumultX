@@ -1,10 +1,9 @@
-name: hldsp@Feizao
+name: hldsp@feizao3
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 5,18 * * *'
-  # 本地时间+8
+    - cron: '20 5,12 * * *'
   watch:
     types: started
   repository_dispatch:
@@ -40,3 +39,7 @@ jobs:
           HLDSPHD: ${{ secrets.HLDSPHD }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
+
+
+
+
