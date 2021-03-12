@@ -1,9 +1,9 @@
-name: hldsp@feizao3
+name: 哈喽短视频
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 5,12 * * *'
+    - cron: '27 5,8 * * *'
   watch:
     types: started
   repository_dispatch:
