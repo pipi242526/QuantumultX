@@ -1,4 +1,4 @@
-name: Î÷Ã·
+name: è¥¿æ¢…
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: 'ÔËĞĞ ¡¾Î÷Ã·¡¿'
+      - name: 'ã€è¿è¡Œè¥¿æ¢…ã€‘'
         if: env.XIMEI_HD
         run: |
           node Task/ximei.js
