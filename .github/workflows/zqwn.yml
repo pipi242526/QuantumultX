@@ -1,0 +1,43 @@
+
+name: 最强蜗牛
+
+on:
+  workflow_dispatch:
+  schedule:
+     - cron: '0/30 2,4,6,8 * * *'
+  watch:
+    types: started
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        ZQWN_HD: ${{ secrets.ZQWN_HD }}
+        ZQWN_URL: ${{ secrets.ZQWN_URL }}		
+        ZQWN_BODY: ${{ secrets.ZQWN_BODY }}	
+        
+    steps:
+      - name: Checkout
+        run: |
+          git clone https://github.com/pipi242526/QuantumultX.git ~/QuantumultX
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: npm install
+        if: env.ZQWN_HD
+        run: |
+          cd ~/QuantumultX
+          git checkout JavaScript
+          npm install
+      - name: '运行 【最强蜗牛】'
+        if: env.ZQWN_HD
+        run: |
+          cd ~/QuantumultX
+          node Task/zqwn.js
+        env:
+          PUSH_KEY: ${{ secrets.PUSH_KEY }}
+          BARK_PUSH: ${{ secrets.BARK_PUSH }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_USER_ID: ${{ secrets.TG_USER_ID }}
+          BARK_SOUND: ${{ secrets.BARK_SOUND }}
