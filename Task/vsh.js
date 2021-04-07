@@ -113,8 +113,7 @@ if(!$.isNode()&&vshhd.indexOf("\n") ==-1){
     } else {
         vshqdbody = [process.env.VSHQD_BODY]
     };
-    console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
- } else if(!$.isNode()&&zqwnhd.indexOf("\n")>-1){
+ } else if(!$.isNode()&&vshhd.indexOf("\n")>-1){
    vshurl = vshurl.split("\n")
    vshhd = vshhd.split("\n")
    vshdspbody = vshdspbody.split("\n")
@@ -182,7 +181,7 @@ if(!$.isNode()&&vshhd.indexOf("\n") ==-1){
     vshbodyArr.push($.getdata(`vshbody${i}`))
     vshqdbodyArr.push($.getdata(`vshqdbody${i}`))
   }
-    console.log(`------------- 共${vshhdArr.length}个账号-------------\n`)
+    console.log(`------------- 共${vshhdArr.length}个【V生活】账号-------------\n`)
       for (let i = 0; i < vshhdArr.length; i++) {
         if (vshhdArr[i]) {
           vshbody = vshbodyArr[i];
