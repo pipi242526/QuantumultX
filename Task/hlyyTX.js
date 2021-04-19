@@ -91,7 +91,6 @@ $.log(hlyybody)
 
 
 
-/*
 //葫芦音乐列表
 function hlyylb(timeout = 0) {
   return new Promise((resolve) => {
@@ -137,7 +136,7 @@ console.log('葫芦音乐获取用户信息失败 已停止当前账号运行!')
   })
 }
 
-
+/*
 //葫芦音乐签到
 function hlyyqd(timeout = 0) {
   return new Promise((resolve) => {
