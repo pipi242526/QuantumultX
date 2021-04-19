@@ -42,6 +42,7 @@ let txje = txsz[hltxje]
           console.log(`\n 开始【葫芦音乐${$.index}】`)
           await hlyylb();
           await $.wait(1000);
+          /*
           await hlyyqd()
           await $.wait(3000);
           await hlyyqdfb()
@@ -62,6 +63,7 @@ let txje = txsz[hltxje]
           await $.wait(3000);
           await hlyyzs()
           await $.wait(3000);
+          */
           await hlyyxx()
           await hlyyme()
           await hlyytx()
@@ -136,8 +138,9 @@ console.log('葫芦音乐获取用户信息失败 已停止当前账号运行!')
   })
 }
 
-/*
+
 //葫芦音乐签到
+/*
 function hlyyqd(timeout = 0) {
   return new Promise((resolve) => {
 let url = {
@@ -541,6 +544,8 @@ let url = {
   })
 }
 
+*/
+
 //葫芦音乐信息
 function hlyyxx(timeout = 0) {
   return new Promise((resolve) => {
@@ -571,8 +576,6 @@ let url = {
     },timeout)
   })
 }
-
-*/
 //葫芦音乐tx名额
 function hlyyme(timeout = 0) {
   return new Promise((resolve) => {
