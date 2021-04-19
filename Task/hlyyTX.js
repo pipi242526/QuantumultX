@@ -41,8 +41,8 @@ let txje = txsz[hltxje]
           $.index = i + 1;
           console.log(`\n 开始【葫芦音乐${$.index}】`)
           await hlyylb();
-          await $.wait(1000);
           /*
+          await $.wait(1000);
           await hlyyqd()
           await $.wait(3000);
           await hlyyqdfb()
