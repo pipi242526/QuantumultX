@@ -542,8 +542,6 @@ let url = {
   })
 }
 
-*/
-
 //葫芦音乐信息
 function hlyyxx(timeout = 0) {
   return new Promise((resolve) => {
@@ -574,6 +572,8 @@ let url = {
     },timeout)
   })
 }
+
+*/
 //葫芦音乐tx名额
 function hlyyme(timeout = 0) {
   return new Promise((resolve) => {
