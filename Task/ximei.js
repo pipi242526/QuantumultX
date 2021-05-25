@@ -154,7 +154,7 @@ function ximei1(timeout = 0) {
       //if (typeof $.getdata('ximeihd') === "undefined") {
         //$.msg($.name,"",'请先获取西梅数据!😓',)
         //$.done()
-      }
+      //}
 
 let url = {
         url : "https://app.hubonews.com/v3/articles/list",
