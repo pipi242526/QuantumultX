@@ -151,9 +151,9 @@ $.log(ximeihd)
 function ximei1(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
-      if (typeof $.getdata('ximeihd') === "undefined") {
-        $.msg($.name,"",'请先获取西梅数据!😓',)
-        $.done()
+      //if (typeof $.getdata('ximeihd') === "undefined") {
+        //$.msg($.name,"",'请先获取西梅数据!😓',)
+        //$.done()
       }
 
 let url = {
